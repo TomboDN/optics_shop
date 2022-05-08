@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/opticsdb
+    username: postgres
+    password: tombo
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+  jpa:
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
