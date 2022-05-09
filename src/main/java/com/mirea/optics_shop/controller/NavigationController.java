@@ -18,21 +18,13 @@ public class NavigationController {
     private SessionRegistry sessionRegistry;
 
     @GetMapping("/")
-    public String home(HttpServletResponse response, Authentication authentication, Model model){
+    public String home(Authentication authentication, Model model){
         if (authentication == null){
             return "index";
         }
-        setDummyCookie(response);
         List<SessionInformation> sessions = sessionRegistry.getAllSessions
                 (authentication.getPrincipal(), false);
         model.addAttribute("currentSession", sessions);
         return "index";
-    }
-
-    private void setDummyCookie(HttpServletResponse response){
-        Cookie cookie = new Cookie("dummyCookie", "dummy_cookie");
-        cookie.setMaxAge(2592000);
-        cookie.setPath("/");
-        response.addCookie(cookie);
     }
 }

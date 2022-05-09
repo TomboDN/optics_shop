@@ -2,6 +2,7 @@ package com.mirea.optics_shop.controller;
 
 import com.mirea.optics_shop.dto.UserDto;
 import com.mirea.optics_shop.exception.UserAlreadyExistsException;
+import com.mirea.optics_shop.service.EmailService;
 import com.mirea.optics_shop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class RegistrationController {
     private final UserService userService;
+    private final EmailService emailService;
 
     @GetMapping("/signup")
     public String register(final Model model) {
@@ -36,6 +38,8 @@ public class RegistrationController {
             model.addAttribute("registrationForm", userDto);
             return "signup";
         }
+        emailService.sendSimpleMailMessage(userDto.getEmail(), "Регистрация в интернет-магазине Optic City",
+                userDto.getFirstName() + ", спасибо  за регистрацию в интернет-магазине Optic City!");
         return "redirect:/index";
     }
 }

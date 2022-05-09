@@ -19,8 +19,6 @@ public class CartDto implements Serializable{
 
     private CartLineDto findLineById(Long id) {
         for (CartLineDto line : this.cartLines) {
-            System.out.println(line.getProductDto().getId());
-            System.out.println(id);
             if (line.getProductDto().getId().equals(id)) {
                 return line;
             }
@@ -37,7 +35,6 @@ public class CartDto implements Serializable{
             line.setProductDto(productDto);
             this.cartLines.add(line);
         }
-        System.out.println(isEmpty());
         int newQuantity = line.getQuantity() + quantity;
         if (newQuantity <= 0) {
             this.cartLines.remove(line);

@@ -18,8 +18,8 @@ public class MainController {
     private final SessionService sessionService;
     private final OrderService orderService;
     private final CustomUserDetailService customUserDetailService;
-
     private final UserService userService;
+    private final EmailService emailService;
 
     @RequestMapping("/productList/{category}")
     public String listProduct(@PathVariable String category, Model model) {
@@ -43,7 +43,6 @@ public class MainController {
             ProductDto productDto = new ProductDto(product);
 
             cartDto.addProduct(productDto, 1);
-            System.out.println(cartDto);
             sessionService.saveCartInSession(request, cartDto);
         }
 
@@ -113,7 +112,6 @@ public class MainController {
         return "redirect:/shoppingCart";
     }
 
-    // GET: Show cart.
     @RequestMapping(value = { "/shoppingCart" }, method = RequestMethod.GET)
     public String shoppingCartHandler(HttpServletRequest request, Model model) {
         CartDto myCart = sessionService.getCartInSession(request);
@@ -157,19 +155,20 @@ public class MainController {
             return "redirect:/shoppingCart";
         }
 
-        // Remove Cart from Session.
         sessionService.removeCartInSession(request);
 
-        // Store last cart.
         sessionService.storeLastOrderedCartInSession(request, cartDto);
 
         CartDto lastOrderedCart = sessionService.getLastOrderedCartInSession(request);
 
         if (lastOrderedCart == null) {
-            System.out.println("null");
             return "redirect:/shoppingCart";
         }
         model.addAttribute("lastOrderedCart", lastOrderedCart);
+
+        emailService.sendSimpleMailMessage(cartDto.getUserDto().getEmail(), "Заказ в Optic City",
+                cartDto.getUserDto().getFirstName() + ", спасибо за заказ №" + cartDto.getOrderNumber() + " в Optic City!");
+
         return "shoppingCartFinalize";
     }
 

@@ -28,8 +28,6 @@ public class EmailService {
 
         return mailSender;
     }
-
-
     private final JavaMailSender emailSender = getJavaMailSender();
 
     @Async

@@ -8,6 +8,5 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableJpaRepositories
 @EnableAspectJAutoProxy
-@EnableScheduling
 public class AppConfiguration {
 }

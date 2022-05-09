@@ -70,7 +70,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
-                .deleteCookies("dummyCookie")
                 .and()
                 .sessionManagement()
                 .maximumSessions(1).sessionRegistry(sessionRegistry())
